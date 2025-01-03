@@ -1,0 +1,62 @@
+/* Favorites.css */
+
+/* Container Styles */
+.favorites-container {
+    max-height: 192px; /* Equivalent to Tailwind's max-h-48 */
+    overflow-y: auto;
+  }
+  
+  /* Title Styles */
+  .favorites-title {
+    font-size: 1.25rem; /* Tailwind's text-xl */
+    font-weight: 600; /* Tailwind's font-semibold */
+    color: #4a4a4a; /* Tailwind's text-gray-800 */
+    margin-bottom: 1rem; /* Tailwind's mb-4 */
+  }
+  
+  /* Favorite Item Styles */
+  .favorite-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem; /* Tailwind's mb-4 */
+    padding: 0.5rem 1rem; /* Tailwind's py-2 px-4 */
+    border-bottom: 1px solid #d1d5db; /* Tailwind's border-gray-300 */
+  }
+  
+  .favorite-item-name {
+    font-size: 1rem; /* Tailwind's text-base */
+    font-weight: 600; /* Tailwind's font-semibold */
+    color: #4a4a4a; /* Tailwind's text-gray-800 */
+  }
+  
+  /* Remove Button Styles */
+  .remove-button {
+    background-color: #dc3545; /* Tailwind's bg-red-600 */
+    color: white;
+    transition: background-color 0.3s;
+  }
+  
+  .remove-button:hover {
+    background-color: #c82333; /* Tailwind's bg-red-700 */
+  }
+  
+  /* No Favorites Section */
+  .no-favorites {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem; /* Tailwind's space-y-4 */
+    width: 100%;
+  }
+  
+  .callout-card {
+    background-color: #f1f5f9; /* Tailwind's bg-gray-100 */
+    width: 100%;
+    padding: 1rem; /* Tailwind's p-4 */
+  }
+  
+  .no-favorites-text {
+    color: #6b7280; /* Tailwind's text-gray-600 */
+  }
+  

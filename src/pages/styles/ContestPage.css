@@ -1,0 +1,99 @@
+/* ContestPage.css */
+
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Container for loading state (Spinner) */
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f7fb;
+  }
+  
+  /* Card and Layout Styles */
+  .Polaris-Page {
+    background-color: #f4f7fb;
+  }
+  
+  .Polaris-Card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .Polaris-Card__Header {
+    background-color: #3b82f6;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 16px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .Polaris-Text {
+    color: #4b5563;
+    font-size: 18px;
+  }
+  
+  .text-blue-600 {
+    color: #3b82f6;
+  }
+  
+  .text-blue-700 {
+    color: #2563eb;
+  }
+  
+  /* Footer Styling */
+  .Polaris-Footer {
+    background-color: #1f2937;
+    padding: 16px;
+    text-align: center;
+    color: white;
+    border-top: 1px solid #2d3748;
+  }
+  
+  .Polaris-Footer__Content p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  /* Spacing and margin adjustments */
+  .mb-6 {
+    margin-bottom: 24px;
+  }
+  
+  .space-y-4 > *:not(:last-child) {
+    margin-bottom: 16px;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Add padding to layout sections */
+  .Polaris-Layout__Section {
+    padding: 24px;
+  }
+  
+  /* Custom Button Styling for Footer Action */
+  .Polaris-Button {
+    background-color: #3b82f6;
+    color: white;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  
+  .Polaris-Button:hover {
+    background-color: #2563eb;
+  }
+  
