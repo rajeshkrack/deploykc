@@ -1,235 +1,274 @@
+/* Dashboard.css */
+
+/* Container for search and filter controls side by side */
+.search-type-container {
+  display: grid;
+  grid-template-columns: 80% 20%; /* Defines columns with 80% and 20% widths */
+  gap: 1rem; /* Space between columns */
+}
+
+
+
+/* Codeforces stlesling  */
+
+.page-title {
+  font-size: 1.8rem; /* Font size for the entire title */
+  font-weight: bold;
+  display: flex;
+  align-items: baseline; /* Aligns parts of the title vertically */
+  gap: 0.5rem; /* Adds space between the title parts */
+}
+
+.page-title .code {
+  color: rgb(104, 104, 229); /* Blue color for "Code" */
+  font-family: 'Arial', sans-serif; /* Specific font for "Code" */
+  font-size: 2rem; /* Larger font size for emphasis */
+}
+
+.page-title .forces {
+  color: rgb(202, 86, 86); /* Black color for "forces" */
+  font-size: 2rem; /* Slightly larger size */
+  font-family: 'Arial', sans-serif;/* Elegant font for "forces" */
+}
+
+.page-title .dashboard {
+  color: black; /* Black color for "Dashboard" */
+  font-size: 1.2rem; /* Smaller font size */
+  font-family: 'Verdana', sans-serif; /* Modern font for "Dashboard" */
+  font-style: italic; /* Italic for uniqueness */
+}
+
 /* General Styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #d3f8f8;
-    margin: 0;
-    padding: 0;
-    color: #4b5563;
-  }
-  
-  .Polaris-Page {
-    background-color: #d3f8f8;
-  }
-  
-  /* Container Styling */
-  .Polaris-Layout {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-  
-  /* Section Styling */
-  .Polaris-Layout__Section {
-    margin-bottom: 32px;
-  }
-  
-  /* Cards Styling */
-  .Polaris-Card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e5e7eb;
-  }
-  
-  .Polaris-Card__Header {
-    background-color: #3b82f6;
-    color: white;
-    padding: 16px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .Polaris-Card__Section {
-    padding: 24px;
-  }
-  
-  .Polaris-Card__Section .Polaris-TextField,
-  .Polaris-Card__Section .Polaris-Select,
-  .Polaris-Card__Section .Polaris-Button {
-    margin-top: 16px;
-  }
-  
-  /* Buttons */
-  .Polaris-Button {
-    background-color: #3b82f6;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    border: none;
-  }
-  
-  .Polaris-Button:hover {
-    background-color: #2563eb;
-  }
-  
-  .Polaris-Button:disabled {
-    background-color: #cbd5e1;
-    cursor: not-allowed;
-  }
-  
-  /* TextField */
-  .Polaris-TextField {
-    background-color: #ffffff;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    padding: 12px;
-    width: 100%;
-    font-size: 16px;
-  }
-  
-  .Polaris-TextField:focus {
-    border-color: #3b82f6;
-    outline: none;
-  }
-  
-  /* Select Dropdown */
-  .Polaris-Select {
-    width: 100%;
-    padding: 12px;
-    background-color: #ffffff;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-  }
-  
-  .Polaris-Select:focus {
-    border-color: #3b82f6;
-    outline: none;
-  }
-  
-  /* Pagination Styling */
-  .Polaris-Card__Section .flex {
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 24px;
-  }
-  
-  .Polaris-Card__Section .flex span {
-    color: #6b7280;
-    font-size: 16px;
-  }
-  
-  .Polaris-Card__Section .flex .Polaris-Button {
-    font-size: 14px;
-  }
-  
-  .Polaris-Card__Section .flex .Polaris-Button:disabled {
-    background-color: #e5e7eb;
-  }
-  
-  .Polaris-Card__Section .flex .Polaris-Select {
-    width: 120px;
-  }
-  
-  /* Spinner */
-  .Polaris-Spinner {
-    width: 36px;
-    height: 36px;
-    border-top: 4px solid #3b82f6;
-    border-right: 4px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #d3f8f8;
+  margin: 0;
+  padding: 0;
+  color: #4b5563;
+}
+
+.polaris-page {
+  background-color: #d3f8f8;
+}
+
+/* Container Styling */
+.polaris-layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Section Styling */
+.polaris-layout__section {
+  margin-bottom: 32px;
+}
+
+/* Cards Styling */
+.polaris-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.polaris-card__header {
+  background-color: #3b82f6;
+  color: white;
+  padding: 16px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.polaris-card__section {
+  padding: 24px;
+}
+
+.polaris-card__section .polaris-text-field,
+.polaris-card__section .polaris-select,
+.polaris-card__section .polaris-button {
+  margin-top: 16px;
+}
+
+/* Buttons */
+.polaris-button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.polaris-button:hover {
+  background-color: #2563eb;
+}
+
+.polaris-button:disabled {
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+}
+
+/* TextField */
+.polaris-text-field {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+}
+
+.polaris-text-field:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* Select Dropdown */
+.polaris-select {
+  width: 100%;
+  padding: 12px;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.polaris-select:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* Pagination Styling */
+.polaris-card__section .flex {
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.polaris-card__section .flex span {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.polaris-card__section .flex .polaris-button {
+  font-size: 14px;
+}
+
+.polaris-card__section .flex .polaris-button:disabled {
+  background-color: #e5e7eb;
+}
+
+.polaris-card__section .flex .polaris-select {
+  width: 120px;
+}
+
+/* Spinner */
+.polaris-spinner {
+  width: 36px;
+  height: 36px;
+  border-top: 4px solid #3b82f6;
+  border-right: 4px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
       transform: rotate(0deg);
-    }
-    100% {
+  }
+  100% {
       transform: rotate(360deg);
-    }
   }
-  
-  /* Block Stack */
-  .Polaris-BlockStack {
-    margin-top: 16px;
-  }
-  
-  /* Section Titles */
-  h2 {
-    font-size: 22px;
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 16px;
-  }
-  
-  /* Footer Styling */
-  footer {
-    background-color: #1f2937;
-    color: white;
-    padding: 24px;
-    text-align: center;
-    border-radius: 8px;
-    margin-top: 48px;
-  }
-  
-  footer p {
-    font-size: 14px;
-  }
-  
-  /* Card Hover Effect */
-  .Polaris-Card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    transform: translateY(-4px);
-    transition: all 0.3s ease;
-  }
-  
-  /* General Layout Adjustments */
-  .text-lg {
-    font-size: 18px;
-  }
-  
-  .text-blue-600 {
-    color: #3b82f6;
-  }
-  
-  .text-blue-700 {
-    color: #2563eb;
-  }
-  
-  .bg-teal-100 {
-    background-color: #e6fffa;
-  }
-  
-  .bg-gray-800 {
-    background-color: #1f2937;
-  }
-  
-  .text-gray-600 {
-    color: #6b7280;
-  }
-  
-  .text-white {
-    color: #ffffff;
-  }
-  
-  .text-center {
-    text-align: center;
-  }
-  
-  .bg-blue-500 {
-    background-color: #3b82f6;
-  }
-  
-  .bg-blue-600 {
-    background-color: #2563eb;
-  }
-  
-  .bg-gray-100 {
-    background-color: #f4f7fb;
-  }
-  
-  /* Hover Effects for Text and Buttons */
-  :hover {
-    transition: all 0.3s ease;
-  }
-  
-  button:hover {
-    cursor: pointer;
-    background-color: #2563eb;
-  }
-  
+}
+
+/* Block Stack */
+.polaris-block-stack {
+  margin-top: 16px;
+}
+
+/* Section Titles */
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+/* Footer Styling */
+footer {
+  background-color: #1f2937;
+  color: white;
+  padding: 24px;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 48px;
+}
+
+footer p {
+  font-size: 14px;
+}
+
+/* Card Hover Effect */
+.polaris-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  transition: all 0.3s ease;
+}
+
+/* General Layout Adjustments */
+.text-lg {
+  font-size: 18px;
+}
+
+.text-blue-600 {
+  color: #3b82f6;
+}
+
+.text-blue-700 {
+  color: #2563eb;
+}
+
+.bg-teal-100 {
+  background-color: #e6fffa;
+}
+
+.bg-gray-800 {
+  background-color: #1f2937;
+}
+
+.text-gray-600 {
+  color: #6b7280;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.bg-blue-500 {
+  background-color: #3b82f6;
+}
+
+.bg-blue-600 {
+  background-color: #2563eb;
+}
+
+.bg-gray-100 {
+  background-color: #f4f7fb;
+}
+
+/* Hover Effects for Text and Buttons */
+:hover {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #2563eb;
+}

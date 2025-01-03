@@ -4,12 +4,10 @@ import {
   Card,
   Select,
   TextField,
-  Pagination,
   Spinner,
   Page,
   Layout,
   BlockStack,
-  CalloutCard,
 } from "@shopify/polaris";
 import ContestList from "../components/ContestList";
 import Favorites from "../components/Favorites";
@@ -75,44 +73,44 @@ const Dashboard = () => {
   );
 
   return (
-    <Page title="Codeforces Dashboard">
+    <Page
+      title={
+        <span className="page-title">
+          <span className="code">Code</span>
+          <span className="forces">forces</span>
+          <span className="dashboard">Dashboard</span>
+        </span>
+      }
+    >
       <Layout>
-        {/* Search Bar Section */}
-        <Layout.Section className="bg-teal-100 p-4 rounded-lg shadow-lg">
-          <Card 
-            sectioned 
-            className="bg-teal-100 border-blue-200 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-          >
-            <TextField
-              label={<span className="text-lg font-semibold text-blue-600">Search Contests</span>}
-              value={searchQuery}
-              onChange={handleSearch}
-              placeholder="Enter contest name"
-              clearButton
-              className="border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 p-2"
-              placeholderTextClassName="text-gray-400 italic"
-            />
-          </Card>
-        </Layout.Section>
-
-        {/* Type Filter Section */}
+        {/* Side by side layout for Search and Type */}
         <Layout.Section>
-          <Card sectioned>
-            <Select
-              label="Filter by Type"
-              options={[
-                { label: "All", value: "" },
-                { label: "CF", value: "CF" },
-                { label: "ICPC", value: "ICPC" },
-              ]}
-              onChange={handleTypeChange}
-              value={selectedType}
-              className="border border-gray-300 rounded-lg shadow-sm"
-            />
-          </Card>
+          <div className="search-type-container">
+            <Card sectioned className="custom-card-search">
+              <TextField
+                label="Search Contests"
+                value={searchQuery}
+                onChange={handleSearch}
+                labelHidden={false}
+                className="custom-text-field"
+                clearButton
+              />
+            </Card>
+            <Card sectioned className="custom-card-type">
+              <Select
+                label="Filter by Type"
+                options={[
+                  { label: "All", value: "" },
+                  { label: "CF", value: "CF" },
+                  { label: "ICPC", value: "ICPC" },
+                ]}
+                onChange={handleTypeChange}
+                value={selectedType}
+              />
+            </Card>
+          </div>
         </Layout.Section>
 
-        {/* Favorites Section */}
         <Layout.Section>
           <Card sectioned>
             <Favorites
@@ -123,11 +121,10 @@ const Dashboard = () => {
           </Card>
         </Layout.Section>
 
-        {/* Contest List Section */}
         <Layout.Section>
-          <Card title="Contests" sectioned className="shadow-md rounded-lg">
+          <Card title="Contests" sectioned>
             {loading ? (
-              <div className="flex justify-center">
+              <div style={{ textAlign: "center" }}>
                 <Spinner size="large" />
               </div>
             ) : (
@@ -140,75 +137,12 @@ const Dashboard = () => {
           </Card>
         </Layout.Section>
 
-        {/* Pagination Section */}
         <Layout.Section>
           <Card sectioned>
-            <div className="flex justify-between items-center">
-              {/* Previous Button */}
-              <Button
-                onClick={() => setPage(page - 1)}
-                disabled={page === 1}
-                primary
-                className="px-4 py-2 bg-blue-500 text-white rounded shadow disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600"
-              >
-                Previous
-              </Button>
-              
-              {/* Page Count */}
-              <span className="text-gray-600">
-                Page <span className="font-semibold">{page}</span> of{" "}
-                <span className="font-semibold">{Math.ceil(filteredContests.length / perPage)}</span>
-              </span>
-              
-              {/* Next Button */}
-              <Button
-                onClick={() => setPage(page + 1)}
-                disabled={page === Math.ceil(filteredContests.length / perPage)}
-                primary
-                className="px-4 py-2 bg-blue-500 text-white rounded shadow disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600"
-              >
-                Next
-              </Button>
-            </div>
-
-            {/* Optional: Items per page selector */}
-            <div className="mt-4 sm:mt-0 flex justify-center items-center space-x-4">
-              <span className="text-gray-600">Items per page: </span>
-              <Select
-                value={perPage}
-                onChange={(e) => setPerPage(Number(e))}
-                options={[
-                  { label: '10', value: 10 },
-                  { label: '20', value: 20 },
-                  { label: '50', value: 50 },
-                ]}
-                className="p-2 border border-gray-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          </Card>
-        </Layout.Section>
-
-        {/* Graph Section */}
-        <Layout.Section>
-          <Card sectioned>
-            <BlockStack>
-              <h2 className="text-2xl font-semibold text-gray-800">Contest Trends</h2>
-            </BlockStack>
             <Graph contests={filteredContests} />
           </Card>
         </Layout.Section>
       </Layout>
-
-      {/* Footer Section */}
-      <Layout.Section>
-        <Card sectioned>
-          <footer className="bg-gray-800 text-white py-4 mt-10">
-            <div className="text-center">
-              <p>&copy; 2025 Codeforces Dashboard. All rights reserved.</p>
-            </div>
-          </footer>
-        </Card>
-      </Layout.Section>
     </Page>
   );
 };

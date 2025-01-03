@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,17 +9,51 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Card, Text } from "@shopify/polaris";
+import { Card, Text, Spinner } from "@shopify/polaris"; // Removed Stack
 import "./styles/Graph.css"; // Importing the custom CSS
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Register the components in Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-const Graph = ({ contests, filterPhase, filterType }) => {
-  const chartRef = useRef(null);
-  const [filteredContests, setFilteredContests] = useState(contests);
+const Graph = ({ filterPhase, filterType }) => {
+  const [contests, setContests] = useState([]); // State to store contests
+  const [filteredContests, setFilteredContests] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
 
+  // Fetching data from the API
   useEffect(() => {
-    // Filtering contests based on phase and type before rendering the chart
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch('https://codeforces.com/api/contest.list');
+        const data = await response.json();
+        
+        if (data.status !== "OK") {
+          throw new Error("Failed to fetch contests.");
+        }
+        
+        setContests(data.result); // Set the fetched contests data to state
+      } catch (error) {
+        setError(error.message); // Set error state
+      } finally {
+        setLoading(false); // Set loading state to false when fetch is complete
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Filtering contests based on phase and type
+  useEffect(() => {
     const filtered = contests.filter((contest) => {
       const matchesPhase = filterPhase ? contest.phase === filterPhase : true;
       const matchesType = filterType ? contest.type === filterType : true;
@@ -34,24 +68,9 @@ const Graph = ({ contests, filterPhase, filterType }) => {
       {
         label: "Duration (Seconds)",
         data: filteredContests.map((contest) => contest.durationSeconds),
-        backgroundColor: [
-          "#ff6384",
-          "#36a2eb",
-          "#ffce56",
-          "#4bc0c0",
-          "#9966ff",
-          "#ff9f40",
-        ],
-        hoverBackgroundColor: [
-          "#ff435e",
-          "#239bdd",
-          "#ffd146",
-          "#3ca6a6",
-          "#8858e0",
-          "#ff8c34",
-        ],
+        backgroundColor: "#36a2eb", // A single color for simplicity
         borderColor: "#ffffff",
-        borderWidth: 2,
+        borderWidth: 1,
       },
     ],
   };
@@ -115,6 +134,26 @@ const Graph = ({ contests, filterPhase, filterType }) => {
     },
   };
 
+  if (loading) {
+    return (
+      <Card sectioned>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "300px" }}>
+          <Spinner size="large" />
+        </div>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card sectioned>
+        <Text color="critical" variant="bodyMd">
+          Error: {error}
+        </Text>
+      </Card>
+    );
+  }
+
   return (
     <div className="graph-container">
       <Card title="Contest Durations" sectioned>
@@ -122,7 +161,7 @@ const Graph = ({ contests, filterPhase, filterType }) => {
           <Text variation="strong" className="graph-title">
             Contest Durations
           </Text>
-          <Bar ref={chartRef} data={data} options={options} />
+          <Bar data={data} options={options} />
         </div>
       </Card>
     </div>
