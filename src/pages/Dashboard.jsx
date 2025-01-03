@@ -142,6 +142,16 @@ const Dashboard = () => {
             <Graph contests={filteredContests} />
           </Card>
         </Layout.Section>
+
+        <Layout.Section>
+          <Card sectioned>
+            <footer className="bg-gray-800 text-white py-4 mt-10">
+              <div className="text-center">
+                <p>&copy; 2025 Codeforces Dashboard. All rights reserved.</p>
+              </div>
+            </footer>
+          </Card>
+        </Layout.Section>
       </Layout>
     </Page>
   );
