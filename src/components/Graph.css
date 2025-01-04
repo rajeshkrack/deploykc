@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.graph-container {
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transition: all 0.3s ease;
+}
+
+.graph-container:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.graph-content {
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.graph-content:hover {
+  transform: scale(1.02);
+}
+
+.graph-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Loading animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .graph-content {
+    padding: 1rem;
+  }
+
+  .graph-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .graph-container {
+    padding: 0.5rem;
+  }
+
+  .graph-content {
+    padding: 0.5rem;
+  }
+
+  .graph-title {
+    font-size: 1rem;
+  }
+}
+
