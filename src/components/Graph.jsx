@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,75 +7,109 @@ import {
   Title,
   Tooltip,
   Legend,
+  LogarithmicScale,
 } from "chart.js";
-import { Card, Text, Spinner } from "@shopify/polaris"; // Removed Stack
-import "./styles/Graph.css"; // Importing the custom CSS
+import { Bar } from "react-chartjs-2";
+import "./styles/Graph.css";
 
-// Register the components in Chart.js
+// Define the smallBarPlugin
+const smallBarPlugin = {
+  id: 'smallBarLabel',
+  afterDatasetsDraw: (chart, args, options) => {
+    const { ctx, data, scales } = chart;
+    ctx.save();
+    ctx.font = '10px Inter';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillStyle = '#1e293b';
+
+    data.datasets[0].data.forEach((value, index) => {
+      const x = scales.x.getPixelForValue(index);
+      const y = scales.y.getPixelForValue(value);
+      if (scales.y.getPixelForValue(value) > chart.height - 30) {
+        ctx.fillText(`${value.toFixed(1)}h`, x, y - 5);
+      }
+    });
+    ctx.restore();
+  }
+};
+
+// Register ChartJS components
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  LogarithmicScale,
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  smallBarPlugin
 );
 
-const Graph = ({ filterPhase, filterType }) => {
-  const [contests, setContests] = useState([]); // State to store contests
+const ContestGraph = ({ filterPhase, filterType }) => {
+  const [contests, setContests] = useState([]);
   const [filteredContests, setFilteredContests] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Fetching data from the API
+  // Fetch contest data
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      setError(null);
       try {
-        const response = await fetch('https://codeforces.com/api/contest.list');
+        const response = await fetch("https://codeforces.com/api/contest.list");
         const data = await response.json();
         
         if (data.status !== "OK") {
-          throw new Error("Failed to fetch contests.");
+          throw new Error("Failed to fetch contests");
         }
         
-        setContests(data.result); // Set the fetched contests data to state
-      } catch (error) {
-        setError(error.message); // Set error state
+        setContests(data.result);
+      } catch (err) {
+        setError(err.message);
       } finally {
-        setLoading(false); // Set loading state to false when fetch is complete
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  // Filtering contests based on phase and type
+  // Filter contests based on phase and type
   useEffect(() => {
-    const filtered = contests.filter((contest) => {
-      const matchesPhase = filterPhase ? contest.phase === filterPhase : true;
-      const matchesType = filterType ? contest.type === filterType : true;
-      return matchesPhase && matchesType;
-    });
+    const filtered = contests
+      .filter((contest) => {
+        const matchesPhase = filterPhase ? contest.phase === filterPhase : true;
+        const matchesType = filterType ? contest.type === filterType : true;
+        return matchesPhase && matchesType;
+      })
+      .slice(0, 15); // Limit to 15 contests for better visualization
     setFilteredContests(filtered);
   }, [contests, filterPhase, filterType]);
 
+  // Chart configuration
   const data = {
-    labels: filteredContests.map((contest) => contest.name),
+    labels: filteredContests.map((contest) => contest.name.substring(0, 20) + "..."),
     datasets: [
       {
-        label: "Duration (Seconds)",
-        data: filteredContests.map((contest) => contest.durationSeconds),
-        backgroundColor: "#000000", // Black bars
-        borderColor: "#444444", // Dark gray border
+        label: "Contest Duration (Hours)",
+        data: filteredContests.map((contest) => Math.max(contest.durationSeconds / 3600, 0.1)),
+        backgroundColor: filteredContests.map(
+          (_, index) => `hsla(${index * (360 / filteredContests.length)}, 70%, 75%, 0.6)`
+        ),
+        borderColor: filteredContests.map(
+          (_, index) => `hsla(${index * (360 / filteredContests.length)}, 70%, 65%, 0.8)`
+        ),
         borderWidth: 2,
+        borderRadius: 8,
+        minBarLength: 10, // Ensure a minimum visible height for very small values
       },
     ],
   };
-  
+
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -84,38 +117,48 @@ const Graph = ({ filterPhase, filterType }) => {
           font: {
             size: 14,
             weight: "bold",
+            family: "'Inter', sans-serif",
           },
-          color: "#000000", // Black text for legend
+          padding: 20,
+          color: "#334155",
         },
       },
       title: {
         display: true,
-        text: "Contest Durations",
+        text: "Contest Durations Overview",
         font: {
           size: 20,
           weight: "bold",
+          family: "'Inter', sans-serif",
         },
-        color: "#000000", // Black title
+        padding: 20,
+        color: "#1e293b",
       },
       tooltip: {
-        backgroundColor: "rgba(0, 0, 0, 0.9)", // Black tooltip background
+        backgroundColor: "rgba(17, 24, 39, 0.8)",
+        padding: 12,
         titleFont: {
           size: 14,
           weight: "bold",
-          color: "#FFFFFF", // White tooltip title
+          family: "'Inter', sans-serif",
         },
         bodyFont: {
-          size: 12,
-          color: "#FFFFFF", // White tooltip body
+          size: 13,
+          family: "'Inter', sans-serif",
         },
         callbacks: {
-          title: function (tooltipItem) {
-            return `Contest: ${tooltipItem[0].label}`;
+          title: (tooltipItems) => {
+            const contest = filteredContests[tooltipItems[0].dataIndex];
+            return contest.name;
           },
-          label: function (tooltipItem) {
+          label: (tooltipItem) => {
             const contest = filteredContests[tooltipItem.dataIndex];
-            const duration = contest.durationSeconds;
-            return `Duration: ${duration} seconds`;
+            const hours = (contest.durationSeconds / 3600).toFixed(1);
+            return [
+              `Duration: ${hours} hours`,
+              `Type: ${contest.type}`,
+              `Phase: ${contest.phase}`,
+            ];
           },
         },
       },
@@ -123,44 +166,75 @@ const Graph = ({ filterPhase, filterType }) => {
     scales: {
       x: {
         grid: {
-          color: "rgba(20,20,20,0.8)", // Darker grid lines
+          display: false,
         },
         ticks: {
-          color: "#000000", // Black ticks
           font: {
             size: 12,
-            weight: "bold",
+            family: "'Inter', sans-serif",
           },
+          color: "#64748b",
+          maxRotation: 45,
+          minRotation: 45,
         },
       },
       y: {
+        type: 'logarithmic',
         grid: {
-          color: "rgba(20,20,20,0.8)", // Darker grid lines
+          color: "rgba(203, 213, 225, 0.4)",
         },
         ticks: {
-          color: "#000000", // Black ticks
           font: {
             size: 12,
-            weight: "bold",
+            family: "'Inter', sans-serif",
           },
+          color: "#64748b",
+          callback: (value) => `${value}h`,
+          autoSkip: false,
+          maxTicksLimit: 8,
         },
+        min: 0.1, // Set minimum value to 0.1 hours (6 minutes)
+        max: 6, // Set maximum value to 6 hours
       },
     },
+    animation: {
+      duration: 2000,
+      easing: "easeInOutQuart",
+    },
   };
-   
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[400px] bg-gray-50 rounded-lg">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-[400px] bg-red-50 rounded-lg">
+        <div className="text-red-500 text-center">
+          <h3 className="text-lg font-semibold mb-2">Error Loading Data</h3>
+          <p className="text-sm">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="graph-container">
-      <Card title="Contest Durations" sectioned>
-        <div className="graph-content">
-          <Text variation="strong" className="graph-title">
-            Contest Durations
-          </Text>
-          <Bar data={data} options={options} />
-        </div>
-      </Card>
+    <div className="bg-white p-6 rounded-xl shadow-lg">
+      <div className="h-[600px]">
+        <Bar data={data} options={options} />
+      </div>
+      <div className="mt-4 text-center text-sm text-gray-500">
+        Showing {filteredContests.length} contests
+        {filterPhase && ` in ${filterPhase} phase`}
+        {filterType && ` of type ${filterType}`}
+      </div>
     </div>
   );
 };
 
-export default Graph;
+export default ContestGraph;
+

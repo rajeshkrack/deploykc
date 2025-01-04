@@ -1,34 +1,70 @@
-/* Graph.css */
 
-/* Graph Container */
+  
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 .graph-container {
-    margin-top: 2rem; /* Tailwind's mt-8 */
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transition: all 0.3s ease;
+}
+
+.graph-container:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.graph-content {
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.graph-content:hover {
+  transform: scale(1.02);
+}
+
+.graph-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Loading animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  /* Graph Content */
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .graph-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem; /* Tailwind's space-y-4 */
-    padding: 1rem; /* Tailwind's p-4 */
-    background-color: #f9fafb; /* Tailwind's bg-gray-100 */
-    border-radius: 8px; /* Tailwind's rounded-lg */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind's shadow-md */
+    padding: 1rem;
   }
-  
-  /* Graph Title */
+
   .graph-title {
-    font-size: 1.25rem; /* Tailwind's text-xl */
-    font-weight: 600; /* Tailwind's font-semibold */
-    color: #1a202c; /* Tailwind's text-gray-800 */
-    text-align: center;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
   }
-  
-  /* Chart Styles */
-  .chartjs-render-monitor {
-    max-height: 300px;
-    max-width: 100%;
-    margin: 0 auto;
-    display: block;
+}
+
+@media (max-width: 640px) {
+  .graph-container {
+    padding: 0.5rem;
   }
-  
+
+  .graph-content {
+    padding: 0.5rem;
+  }
+
+  .graph-title {
+    font-size: 1rem;
+  }
+}
+
