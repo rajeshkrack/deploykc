@@ -46,7 +46,7 @@ ChartJS.register(
   smallBarPlugin
 );
 
-const ContestGraph = ({ filterPhase, filterType }) => {
+const Graph = ({ filterPhase, filterType }) => {
   const [contests, setContests] = useState([]);
   const [filteredContests, setFilteredContests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -236,5 +236,5 @@ const ContestGraph = ({ filterPhase, filterType }) => {
   );
 };
 
-export default ContestGraph;
+export default Graph;
 

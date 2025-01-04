@@ -18,6 +18,7 @@ import './styles/Dashboard.css';  // Import the custom CSS file
 
 
 
+
 const Dashboard = () => {
   const [contests, setContests] = useState([]);
   const [filteredContests, setFilteredContests] = useState([]);
