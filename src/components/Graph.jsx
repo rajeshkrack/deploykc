@@ -12,7 +12,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import "./styles/Graph.css";
 
-// Define the smallBarPlugin
+// Define a custom plugin to display small labels on bars
 const smallBarPlugin = {
   id: 'smallBarLabel',
   afterDatasetsDraw: (chart, args, options) => {
@@ -23,18 +23,19 @@ const smallBarPlugin = {
     ctx.textBaseline = 'bottom';
     ctx.fillStyle = '#1e293b';
 
+    // Display a label for each bar above the bar
     data.datasets[0].data.forEach((value, index) => {
-      const x = scales.x.getPixelForValue(index);
-      const y = scales.y.getPixelForValue(value);
+      const x = scales.x.getPixelForValue(index); // Get x-position of the bar
+      const y = scales.y.getPixelForValue(value); // Get y-position of the bar
       if (scales.y.getPixelForValue(value) > chart.height - 30) {
-        ctx.fillText(`${value.toFixed(1)}h`, x, y - 5);
+        ctx.fillText(`${value.toFixed(1)}h`, x, y - 5); // Show value in hours
       }
     });
     ctx.restore();
   }
 };
 
-// Register ChartJS components
+// Register ChartJS components and the custom plugin
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -47,26 +48,27 @@ ChartJS.register(
 );
 
 const Graph = ({ filterPhase, filterType }) => {
-  const [contests, setContests] = useState([]);
-  const [filteredContests, setFilteredContests] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [contests, setContests] = useState([]); // All contests fetched from API
+  const [filteredContests, setFilteredContests] = useState([]); // Contests after applying filters
+  const [loading, setLoading] = useState(true); // Loading state for data fetch
+  const [error, setError] = useState(null); // Error state for API fetch
 
-  // Fetch contest data
+  // Fetch contest data from the Codeforces API
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         const response = await fetch("https://codeforces.com/api/contest.list");
         const data = await response.json();
-        
+
+        // Handle errors from the API response
         if (data.status !== "OK") {
           throw new Error("Failed to fetch contests");
         }
-        
-        setContests(data.result);
+
+        setContests(data.result); // Set contests to the API result
       } catch (err) {
-        setError(err.message);
+        setError(err.message); // Handle fetch errors
       } finally {
         setLoading(false);
       }
@@ -75,7 +77,7 @@ const Graph = ({ filterPhase, filterType }) => {
     fetchData();
   }, []);
 
-  // Filter contests based on phase and type
+  // Filter contests based on selected phase and type
   useEffect(() => {
     const filtered = contests
       .filter((contest) => {
@@ -83,36 +85,36 @@ const Graph = ({ filterPhase, filterType }) => {
         const matchesType = filterType ? contest.type === filterType : true;
         return matchesPhase && matchesType;
       })
-      .slice(0, 15); // Limit to 15 contests for better visualization
+      .slice(0, 15); // Limit results to 15 contests for visualization
     setFilteredContests(filtered);
   }, [contests, filterPhase, filterType]);
 
-  // Chart configuration
+  // Chart data and configurations
   const data = {
-    labels: filteredContests.map((contest) => contest.name.substring(0, 20) + "..."),
+    labels: filteredContests.map((contest) => contest.name.substring(0, 20) + "..."), // Contest names
     datasets: [
       {
         label: "Contest Duration (Hours)",
-        data: filteredContests.map((contest) => Math.max(contest.durationSeconds / 3600, 0.1)),
+        data: filteredContests.map((contest) => Math.max(contest.durationSeconds / 3600, 0.1)), // Duration in hours
         backgroundColor: filteredContests.map(
-          (_, index) => `hsla(${index * (360 / filteredContests.length)}, 70%, 75%, 0.6)`
+          (_, index) => `hsla(${index * (360 / filteredContests.length)}, 70%, 75%, 0.6)` // Dynamic colors
         ),
         borderColor: filteredContests.map(
-          (_, index) => `hsla(${index * (360 / filteredContests.length)}, 70%, 65%, 0.8)`
+          (_, index) => `hsla(${index * (360 / filteredContests.length)}, 70%, 65%, 0.8)` // Border color
         ),
         borderWidth: 2,
-        borderRadius: 8,
-        minBarLength: 10, // Ensure a minimum visible height for very small values
+        borderRadius: 8, // Rounded corners for bars
+        minBarLength: 10, // Ensure minimum visible height for small values
       },
     ],
   };
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false, // Allow flexible resizing
     plugins: {
       legend: {
-        position: "top",
+        position: "top", // Position legend at the top
         labels: {
           font: {
             size: 14,
@@ -135,7 +137,7 @@ const Graph = ({ filterPhase, filterType }) => {
         color: "#1e293b",
       },
       tooltip: {
-        backgroundColor: "rgba(17, 24, 39, 0.8)",
+        backgroundColor: "rgba(17, 24, 39, 0.8)", // Tooltip background
         padding: 12,
         titleFont: {
           size: 14,
@@ -149,7 +151,7 @@ const Graph = ({ filterPhase, filterType }) => {
         callbacks: {
           title: (tooltipItems) => {
             const contest = filteredContests[tooltipItems[0].dataIndex];
-            return contest.name;
+            return contest.name; // Tooltip title
           },
           label: (tooltipItem) => {
             const contest = filteredContests[tooltipItem.dataIndex];
@@ -158,7 +160,7 @@ const Graph = ({ filterPhase, filterType }) => {
               `Duration: ${hours} hours`,
               `Type: ${contest.type}`,
               `Phase: ${contest.phase}`,
-            ];
+            ]; // Tooltip details
           },
         },
       },
@@ -166,7 +168,7 @@ const Graph = ({ filterPhase, filterType }) => {
     scales: {
       x: {
         grid: {
-          display: false,
+          display: false, // Hide x-axis grid lines
         },
         ticks: {
           font: {
@@ -179,9 +181,9 @@ const Graph = ({ filterPhase, filterType }) => {
         },
       },
       y: {
-        type: 'logarithmic',
+        type: 'logarithmic', // Use logarithmic scale for better visualization
         grid: {
-          color: "rgba(203, 213, 225, 0.4)",
+          color: "rgba(203, 213, 225, 0.4)", // Grid line color
         },
         ticks: {
           font: {
@@ -189,20 +191,21 @@ const Graph = ({ filterPhase, filterType }) => {
             family: "'Inter', sans-serif",
           },
           color: "#64748b",
-          callback: (value) => `${value}h`,
+          callback: (value) => `${value}h`, // Add 'h' to values
           autoSkip: false,
-          maxTicksLimit: 8,
+          maxTicksLimit: 8, // Limit number of ticks
         },
-        min: 0.1, // Set minimum value to 0.1 hours (6 minutes)
-        max: 6, // Set maximum value to 6 hours
+        min: 0.1, // Minimum value on y-axis
+        max: 6, // Maximum value on y-axis
       },
     },
     animation: {
-      duration: 2000,
-      easing: "easeInOutQuart",
+      duration: 2000, // Animation duration
+      easing: "easeInOutQuart", // Smooth animation
     },
   };
 
+  // Handle loading state
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[400px] bg-gray-50 rounded-lg">
@@ -211,6 +214,7 @@ const Graph = ({ filterPhase, filterType }) => {
     );
   }
 
+  // Handle error state
   if (error) {
     return (
       <div className="flex items-center justify-center h-[400px] bg-red-50 rounded-lg">
@@ -222,6 +226,7 @@ const Graph = ({ filterPhase, filterType }) => {
     );
   }
 
+  // Render the graph
   return (
     <div className="bg-white p-6 rounded-xl shadow-lg">
       <div className="h-[600px]">
@@ -237,4 +242,3 @@ const Graph = ({ filterPhase, filterType }) => {
 };
 
 export default Graph;
-
