@@ -2,6 +2,7 @@ import React from "react";
 import { TextField, Select, Stack } from "@shopify/polaris";
 import { SearchMinor, FilterMinor } from "@shopify/polaris-icons";
 import "./styles/SearchBar.css"; // Import custom CSS
+import '../styles/Dashboard.css';
 
 const SearchBar = ({ value, onSearch, selectedType, onTypeChange }) => {
   const filterOptions = [
@@ -24,9 +25,9 @@ const SearchBar = ({ value, onSearch, selectedType, onTypeChange }) => {
               clearButton
               onClearButtonClick={() => onSearch("")}
               autoComplete="off"
-              className="search-input"
+              className="search-input colorful-input"
             />
-            <span className="search-icon">
+            <span className="search-icon colorful-icon">
               <SearchMinor />
             </span>
           </div>
@@ -39,9 +40,9 @@ const SearchBar = ({ value, onSearch, selectedType, onTypeChange }) => {
               value={selectedType}
               onChange={onTypeChange}
               placeholder="Filter by Type"
-              className="filter-select"
+              className="filter-select colorful-select"
             />
-            <span className="filter-icon">
+            <span className="filter-icon colorful-icon">
               <FilterMinor />
             </span>
           </div>

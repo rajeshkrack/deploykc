@@ -37,19 +37,9 @@ const Favorites = ({ contests, favorites, onFavoriteToggle }) => {
           </div>
         ) : (
           <div className="no-favorites">
-            <CalloutCard
-              title="No favorite contests yet"
-              illustration="https://cdn.shopify.com/s/files/1/0264/2036/6839/files/empty-state.svg"
-              primaryAction={{
-                content: "Explore Contests",
-                url: "/contests", // Replace with your actual contests page URL
-              }}
-              className="callout-card"
-            >
-              <p className="no-favorites-text">
-                You haven't added any contests to your favorites yet. Start exploring and add some!
-              </p>
-            </CalloutCard>
+            <p className="no-favorites-text">
+              Add your fav here, no one added yet.
+            </p>
           </div>
         )}
       </div>

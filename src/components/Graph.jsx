@@ -68,13 +68,13 @@ const Graph = ({ filterPhase, filterType }) => {
       {
         label: "Duration (Seconds)",
         data: filteredContests.map((contest) => contest.durationSeconds),
-        backgroundColor: "#36a2eb", // A single color for simplicity
-        borderColor: "#ffffff",
-        borderWidth: 1,
+        backgroundColor: "#000000", // Black bars
+        borderColor: "#444444", // Dark gray border
+        borderWidth: 2,
       },
     ],
   };
-
+  
   const options = {
     responsive: true,
     plugins: {
@@ -83,7 +83,9 @@ const Graph = ({ filterPhase, filterType }) => {
         labels: {
           font: {
             size: 14,
+            weight: "bold",
           },
+          color: "#000000", // Black text for legend
         },
       },
       title: {
@@ -91,16 +93,20 @@ const Graph = ({ filterPhase, filterType }) => {
         text: "Contest Durations",
         font: {
           size: 20,
+          weight: "bold",
         },
-        color: "#333333",
+        color: "#000000", // Black title
       },
       tooltip: {
-        backgroundColor: "rgba(0,0,0,0.8)",
+        backgroundColor: "rgba(0, 0, 0, 0.9)", // Black tooltip background
         titleFont: {
           size: 14,
+          weight: "bold",
+          color: "#FFFFFF", // White tooltip title
         },
         bodyFont: {
           size: 12,
+          color: "#FFFFFF", // White tooltip body
         },
         callbacks: {
           title: function (tooltipItem) {
@@ -117,42 +123,31 @@ const Graph = ({ filterPhase, filterType }) => {
     scales: {
       x: {
         grid: {
-          color: "rgba(200,200,200,0.3)",
+          color: "rgba(20,20,20,0.8)", // Darker grid lines
         },
         ticks: {
-          color: "#333333",
+          color: "#000000", // Black ticks
+          font: {
+            size: 12,
+            weight: "bold",
+          },
         },
       },
       y: {
         grid: {
-          color: "rgba(200,200,200,0.3)",
+          color: "rgba(20,20,20,0.8)", // Darker grid lines
         },
         ticks: {
-          color: "#333333",
+          color: "#000000", // Black ticks
+          font: {
+            size: 12,
+            weight: "bold",
+          },
         },
       },
     },
   };
-
-  if (loading) {
-    return (
-      <Card sectioned>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "300px" }}>
-          <Spinner size="large" />
-        </div>
-      </Card>
-    );
-  }
-
-  if (error) {
-    return (
-      <Card sectioned>
-        <Text color="critical" variant="bodyMd">
-          Error: {error}
-        </Text>
-      </Card>
-    );
-  }
+   
 
   return (
     <div className="graph-container">

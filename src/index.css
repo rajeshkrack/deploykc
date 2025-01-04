@@ -7,24 +7,3 @@
 body {
   font-family: 'Arial', sans-serif;
 }
-
-/* Custom styles for TextField label */
-.Polaris-TextField__Label {
-  color: #1d4ed8; /* Custom blue color */
-  font-size: 16px; /* Increase font size */
-  font-weight: bold; /* Bold label */
-}
-
-/* Override Polaris Card background */
-.Polaris-Card {
-  background-color: #f1f5f9; /* Light gray background */
-  border: 1px solid #94a3b8; /* Subtle border */
-  border-radius: 8px; /* Rounded corners */
-}
-
-/* Custom layout section */
-.custom-layout-section {
-  background-color: #f8fafc; /* Very light background */
-  padding: 16px; /* Add padding */
-  border-radius: 8px; /* Rounded corners */
-}

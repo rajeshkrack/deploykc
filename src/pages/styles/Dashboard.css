@@ -1,7 +1,7 @@
-/* Dashboard.css */
 
 /* Container for search and filter controls side by side */
 .search-type-container {
+  background-color: #f5f5f5;
   display: grid;
   grid-template-columns: 80% 20%; /* Defines columns with 80% and 20% widths */
   gap: 1rem; /* Space between columns */

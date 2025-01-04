@@ -17,6 +17,7 @@ import { debounce } from "lodash";
 import './styles/Dashboard.css';  // Import the custom CSS file
 
 
+
 const Dashboard = () => {
   const [contests, setContests] = useState([]);
   const [filteredContests, setFilteredContests] = useState([]);
@@ -85,7 +86,7 @@ const Dashboard = () => {
     >
       <Layout>
         {/* Side by side layout for Search and Type */}
-        <Layout.Section>
+        <Layout.Section >
           <div className="search-type-container">
             <Card sectioned className="custom-card-search">
               <TextField
@@ -123,6 +124,7 @@ const Dashboard = () => {
         </Layout.Section>
 
         <Layout.Section>
+        <div className="fav-sec">
           <Card title="Contests" sectioned>
             {loading ? (
               <div style={{ textAlign: "center" }}>
@@ -136,10 +138,11 @@ const Dashboard = () => {
               />
             )}
           </Card>
+        </div>
         </Layout.Section>
 
-                {/* Pagination Section */}
-                <Layout.Section>
+        {/* Pagination Section */}
+        <Layout.Section>
           <Card sectioned>
             <div className="flex justify-between items-center">
               {/* Previous Button */}
@@ -151,13 +154,13 @@ const Dashboard = () => {
               >
                 Previous
               </Button>
-              
+
               {/* Page Count */}
               <span className="text-gray-600">
                 Page <span className="font-semibold">{page}</span> of{" "}
                 <span className="font-semibold">{Math.ceil(filteredContests.length / perPage)}</span>
               </span>
-              
+
               {/* Next Button */}
               <Button
                 onClick={() => setPage(page + 1)}
@@ -193,14 +196,14 @@ const Dashboard = () => {
         </Layout.Section>
 
         <Layout.Section>
-        <Card sectioned>
-          <footer className="bg-gray-800 text-white py-4 mt-10">
-            <div className="text-center">
-              <p>&copy; 2025 Codeforces Dashboard. All rights reserved.</p>
-            </div>
-          </footer>
-        </Card>
-      </Layout.Section>
+          <Card sectioned>
+            <footer className="bg-gray-800 text-white py-4 mt-10">
+              <div className="text-center">
+                <p>&copy; 2025 Codeforces Dashboard. All rights reserved.</p>
+              </div>
+            </footer>
+          </Card>
+        </Layout.Section>
       </Layout>
     </Page>
   );
