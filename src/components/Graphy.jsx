@@ -12,7 +12,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import "./Graph.css";
 
-// Register ChartJS components
+// Registering required Chart.js components for bar chart functionality
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -24,12 +24,13 @@ ChartJS.register(
 );
 
 const ContestGraph = ({ filterPhase, filterType }) => {
+  // State variables for managing contest data, filtered contests, loading state, and errors
   const [contests, setContests] = useState([]);
   const [filteredContests, setFilteredContests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch contest data
+  // Fetching contest data from the Codeforces API when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -37,14 +38,18 @@ const ContestGraph = ({ filterPhase, filterType }) => {
         const response = await fetch("https://codeforces.com/api/contest.list");
         const data = await response.json();
         
+        // Checking if API returned an error
         if (data.status !== "OK") {
           throw new Error("Failed to fetch contests");
         }
         
+        // Setting contests data on successful fetch
         setContests(data.result);
       } catch (err) {
+        // Setting error message in case of failure
         setError(err.message);
       } finally {
+        // Stopping the loading state
         setLoading(false);
       }
     };
@@ -52,7 +57,7 @@ const ContestGraph = ({ filterPhase, filterType }) => {
     fetchData();
   }, []);
 
-  // Filter contests based on phase and type
+  // Filtering contests based on provided phase and type filters
   useEffect(() => {
     const filtered = contests
       .filter((contest) => {
@@ -60,11 +65,11 @@ const ContestGraph = ({ filterPhase, filterType }) => {
         const matchesType = filterType ? contest.type === filterType : true;
         return matchesPhase && matchesType;
       })
-      .slice(0, 15); // Limit to 15 contests for better visualization
+      .slice(0, 15); // Limiting to 15 contests for better visualization
     setFilteredContests(filtered);
   }, [contests, filterPhase, filterType]);
 
-  // Chart configuration
+  // Preparing chart data and configuration
   const data = {
     labels: filteredContests.map((contest) => contest.name.substring(0, 20) + "..."),
     datasets: [
@@ -124,6 +129,7 @@ const ContestGraph = ({ filterPhase, filterType }) => {
           family: "'Inter', sans-serif",
         },
         callbacks: {
+          // Customizing tooltip content with contest details
           title: (tooltipItems) => {
             const contest = filteredContests[tooltipItems[0].dataIndex];
             return contest.name;
@@ -166,7 +172,7 @@ const ContestGraph = ({ filterPhase, filterType }) => {
             family: "'Inter', sans-serif",
           },
           color: "#64748b",
-          callback: (value) => `${value}h`,
+          callback: (value) => `${value}h`, // Displaying tick values with "h"
           autoSkip: false,
           maxTicksLimit: 6,
         },
@@ -180,6 +186,7 @@ const ContestGraph = ({ filterPhase, filterType }) => {
     },
   };
 
+  // Displaying loading state
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[300px] bg-gray-50 rounded-lg">
@@ -188,6 +195,7 @@ const ContestGraph = ({ filterPhase, filterType }) => {
     );
   }
 
+  // Displaying error message if data fetch fails
   if (error) {
     return (
       <div className="flex items-center justify-center h-[300px] bg-red-50 rounded-lg">
@@ -199,6 +207,7 @@ const ContestGraph = ({ filterPhase, filterType }) => {
     );
   }
 
+  // Rendering the bar chart
   return (
     <div className="graph-container p-2 sm:p-4 rounded-xl">
       <div className="h-[300px] sm:h-[400px] md:h-[500px]">
@@ -214,4 +223,3 @@ const ContestGraph = ({ filterPhase, filterType }) => {
 };
 
 export default ContestGraph;
-

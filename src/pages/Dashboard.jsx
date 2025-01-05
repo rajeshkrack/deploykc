@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -12,7 +11,7 @@ import {
   Modal,
   Icon,
 } from "@shopify/polaris";
-// import { SearchMinor, FilterMinor, StarFilledMinor, MenuIcon, SearchMajor, FilterMajor, StarFilledMajor, MobileCancelMajor } from '@shopify/polaris-icons';
+// Importing utility functions and custom components
 import ContestList from "../components/ContestList";
 import Favorites from "../components/Favorites";
 import ContestGraph from "../components/Graphy";
@@ -20,17 +19,20 @@ import { fetchContests } from "../utils/api";
 import { debounce } from "lodash";
 import "./styles/Dashboard.css";
 
+// Main Dashboard Component
 const Dashboard = () => {
-  const [contests, setContests] = useState([]);
-  const [filteredContests, setFilteredContests] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedType, setSelectedType] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // State variables for managing contests and user interactions
+  const [contests, setContests] = useState([]); // All contests
+  const [filteredContests, setFilteredContests] = useState([]); // Filtered contests
+  const [favorites, setFavorites] = useState([]); // User's favorite contests
+  const [searchQuery, setSearchQuery] = useState(""); // Search query input
+  const [selectedType, setSelectedType] = useState(""); // Selected contest type
+  const [loading, setLoading] = useState(true); // Loading state
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for favorites modal
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false); // State for filter modal
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Mobile menu toggle state
 
+  // Fetch contests on initial render
   useEffect(() => {
     fetchContests().then((data) => {
       setContests(data);
@@ -39,17 +41,20 @@ const Dashboard = () => {
     });
   }, []);
 
+  // Handles search functionality with debounce for optimized performance
   const handleSearch = debounce((query) => {
     setSearchQuery(query);
     filterContests(query, selectedType);
   }, 300);
 
+  // Handles changes in the contest type filter
   const handleTypeChange = (type) => {
     setSelectedType(type);
     filterContests(searchQuery, type);
-    setIsFilterModalOpen(false);
+    setIsFilterModalOpen(false); // Close filter modal
   };
 
+  // Toggles a contest as a favorite or removes it
   const handleFavorite = (contestId) => {
     const updatedFavorites = favorites.includes(contestId)
       ? favorites.filter((id) => id !== contestId)
@@ -57,10 +62,12 @@ const Dashboard = () => {
     setFavorites(updatedFavorites);
   };
 
+  // Utility functions to toggle modals and menus
   const toggleModal = () => setIsModalOpen(!isModalOpen);
   const toggleFilterModal = () => setIsFilterModalOpen(!isFilterModalOpen);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
+  // Filters contests based on the search query and selected type
   const filterContests = (query, type) => {
     let result = contests;
 
@@ -77,6 +84,7 @@ const Dashboard = () => {
     setFilteredContests(result);
   };
 
+  // User menu markup for the top bar
   const userMenuMarkup = (
     <TopBar.UserMenu
       actions={[
@@ -89,22 +97,22 @@ const Dashboard = () => {
     />
   );
 
+  // Search field markup for desktop and mobile views
   const searchFieldMarkup = (
     <div className="search-field">
-    <TopBar.SearchField
-      onChange={handleSearch}
-      value={searchQuery}
-      placeholder="Search contests..."
-      
-    />
+      <TopBar.SearchField
+        onChange={handleSearch}
+        value={searchQuery}
+        placeholder="Search contests..."
+      />
     </div>
   );
 
+  // Top bar markup with search, filter, and favorites
   const topBarMarkup = (
     <div style={{ position: "relative" }}>
       <TopBar
         showNavigationToggle
-       
         searchField={searchFieldMarkup}
         secondaryMenu={
           <div className="desktop-menu">
@@ -117,19 +125,20 @@ const Dashboard = () => {
           </div>
         }
       />
+      {/* Mobile menu toggle button */}
       <div className="mobile-menu-toggle">
-        <Button onClick={toggleMobileMenu} icon="isMobileMenuOpen" >
-          {isMobileMenuOpen ? 'Close' : 'Menu'}
+        <Button onClick={toggleMobileMenu} icon="isMobileMenuOpen">
+          {isMobileMenuOpen ? "Close" : "Menu"}
         </Button>
       </div>
+      {/* Mobile menu content */}
       {isMobileMenuOpen && (
         <div className="mobile-menu">
           <TopBar.SearchField
-      onChange={handleSearch}
-      value={searchQuery}
-      placeholder="Search contests..."
-      
-    />
+            onChange={handleSearch}
+            value={searchQuery}
+            placeholder="Search contests..."
+          />
           <Button onClick={toggleFilterModal} icon="FilterMajor" fullWidth>
             Filter
           </Button>
@@ -141,9 +150,10 @@ const Dashboard = () => {
     </div>
   );
 
-
+  // Main render section
   return (
     <Frame topBar={topBarMarkup}>
+      {/* Filter modal */}
       <Modal
         open={isFilterModalOpen}
         onClose={toggleFilterModal}
@@ -167,8 +177,10 @@ const Dashboard = () => {
         </Modal.Section>
       </Modal>
 
+      {/* Dashboard layout */}
       <Page title="CodeForces Dashboard">
         <Layout>
+          {/* Contest list section */}
           <Layout.Section>
             <div className="contest-section">
               <Card title="Contests" sectioned>
@@ -187,6 +199,7 @@ const Dashboard = () => {
             </div>
           </Layout.Section>
 
+          {/* Graph section */}
           <Layout.Section>
             <Card sectioned>
               <div className="graph-container">
@@ -196,6 +209,7 @@ const Dashboard = () => {
           </Layout.Section>
         </Layout>
 
+        {/* Favorites modal */}
         <Favorites
           contests={contests}
           favorites={favorites}

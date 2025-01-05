@@ -20,6 +20,7 @@ import { debounce } from "lodash";
 import './styles/Dashboard.css';
 
 const Dashboard = () => {
+  // State variables to manage contests, search, filters, pagination, and favorites
   const [contests, setContests] = useState([]);
   const [filteredContests, setFilteredContests] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -30,6 +31,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Fetch contests data when the component mounts
   useEffect(() => {
     fetchContests().then((data) => {
       setContests(data);
@@ -38,16 +40,19 @@ const Dashboard = () => {
     });
   }, []);
 
+  // Handle search input with a debounce to improve performance
   const handleSearch = debounce((query) => {
     setSearchQuery(query);
     filterContests(query, selectedType);
   }, 300);
 
+  // Handle changes to the contest type filter
   const handleTypeChange = (type) => {
     setSelectedType(type);
     filterContests(searchQuery, type);
   };
 
+  // Add or remove a contest from the favorites list
   const handleFavorite = (contestId) => {
     const updatedFavorites = favorites.includes(contestId)
       ? favorites.filter((id) => id !== contestId)
@@ -55,17 +60,21 @@ const Dashboard = () => {
     setFavorites(updatedFavorites);
   };
 
+  // Toggle the modal visibility for favorites
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
+  // Filter contests based on the search query and selected type
   const filterContests = (query, type) => {
     let result = contests;
 
+    // Filter by search query
     if (query) {
       result = result.filter((contest) =>
         contest.name.toLowerCase().includes(query.toLowerCase())
       );
     }
 
+    // Filter by contest type
     if (type) {
       result = result.filter((contest) => contest.type === type);
     }
@@ -73,12 +82,13 @@ const Dashboard = () => {
     setFilteredContests(result);
   };
 
+  // Calculate the paginated data to be displayed
   const paginatedData = filteredContests.slice(
     (page - 1) * perPage,
     page * perPage
   );
 
-  // Custom header with favorites button
+  // Custom page layout and header with a favorites button
   const pageMarkup = (
     <Page
       title={
@@ -98,6 +108,7 @@ const Dashboard = () => {
       }
     >
       <Layout>
+        {/* Search and Filter Section */}
         <Layout.Section>
           <div className="search-type-container">
             <Card sectioned className="custom-card-search">
@@ -125,68 +136,66 @@ const Dashboard = () => {
           </div>
         </Layout.Section>
 
-      
-            <Favorites
-              contests={contests}
-              favorites={favorites}
-              onFavoriteToggle={handleFavorite}
-              isModalOpen={isModalOpen}
-              toggleModal={toggleModal}
-            />
-        
+        {/* Favorites Section */}
+        <Favorites
+          contests={contests}
+          favorites={favorites}
+          onFavoriteToggle={handleFavorite}
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+        />
 
-        {/* Rest of the component remains the same */}
-        {/* ... */}
+        {/* Contest List Section */}
         <Layout.Section>
-        <div className="fav-sec">
-          <Card title="Contests" sectioned>
-            {loading ? (
-              <div style={{ textAlign: "center" }}>
-                <Spinner size="large" />
-              </div>
-            ) : (
-              <ContestList
-                contests={paginatedData}
-                favorites={favorites}
-                onFavoriteToggle={handleFavorite}
-              />
-            )}
-          </Card>
-        </div>
+          <div className="fav-sec">
+            <Card title="Contests" sectioned>
+              {loading ? (
+                <div style={{ textAlign: "center" }}>
+                  <Spinner size="large" />
+                </div>
+              ) : (
+                <ContestList
+                  contests={paginatedData}
+                  favorites={favorites}
+                  onFavoriteToggle={handleFavorite}
+                />
+              )}
+            </Card>
+          </div>
         </Layout.Section>
 
         {/* Pagination Section */}
         <Layout.Section>
           <Card sectioned>
             <div className="flex justify-between items-center">
-              {/* Previous Button */}
+              {/* Previous Page Button */}
               <Button
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
                 primary
-                className="px-4 py-2 bg-blue-500 text-white rounded shadow disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600"
               >
                 Previous
               </Button>
 
-              {/* Page Count */}
+              {/* Current Page Info */}
               <span className="text-gray-600">
                 Page <span className="font-semibold">{page}</span> of{" "}
-                <span className="font-semibold">{Math.ceil(filteredContests.length / perPage)}</span>
+                <span className="font-semibold">
+                  {Math.ceil(filteredContests.length / perPage)}
+                </span>
               </span>
 
-              {/* Next Button */}
+              {/* Next Page Button */}
               <Button
                 onClick={() => setPage(page + 1)}
                 disabled={page === Math.ceil(filteredContests.length / perPage)}
                 primary
-                className="px-4 py-2 bg-blue-500 text-white rounded shadow disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600"
               >
                 Next
               </Button>
             </div>
 
-            {/* Optional: Items per page selector */}
+            {/* Items per Page Selector */}
             <div className="mt-4 sm:mt-0 flex justify-center items-center space-x-4">
               <span className="text-gray-600">Items per page: </span>
               <Select
@@ -197,19 +206,19 @@ const Dashboard = () => {
                   { label: '20', value: 20 },
                   { label: '50', value: 50 },
                 ]}
-                className="p-2 border border-gray-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </Card>
         </Layout.Section>
 
+        {/* Graph Section */}
         <Layout.Section>
           <Card sectioned>
-            {/* <Graph contests={filteredContests} /> */}
-            <ContestGraph contest={filterContests} ></ContestGraph>
+            <ContestGraph contest={filteredContests} />
           </Card>
         </Layout.Section>
 
+        {/* Footer Section */}
         <Layout.Section>
           <Card sectioned>
             <footer className="bg-gray-800 text-white py-4 mt-10">
@@ -227,4 +236,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
