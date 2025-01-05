@@ -318,3 +318,57 @@ button:hover {
   cursor: pointer;
   background-color: #2563eb;
 }
+
+
+
+.desktop-menu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 14px;
+  gap: 10px;
+}
+
+.mobile-menu-toggle {
+  display: none;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+
+  .mobile-menu .Polaris-TopBar-SearchField {
+    margin-bottom: 10px;
+  }
+  .search-field{
+    display: none;
+  }
+ 
+}

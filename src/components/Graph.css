@@ -12,24 +12,23 @@
 }
 
 .graph-content {
-  padding: 1.5rem;
+  padding: 0.5rem;
   transition: all 0.3s ease;
 }
 
 .graph-content:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
 }
 
 .graph-title {
   font-family: 'Inter', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #1e293b;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
-/* Loading animation */
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -40,29 +39,20 @@
   animation: spin 1s linear infinite;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+@media (min-width: 640px) {
   .graph-content {
     padding: 1rem;
   }
 
   .graph-title {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 }
 
-@media (max-width: 640px) {
-  .graph-container {
-    padding: 0.5rem;
-  }
-
+@media (min-width: 768px) {
   .graph-content {
-    padding: 0.5rem;
-  }
-
-  .graph-title {
-    font-size: 1rem;
+    padding: 1.5rem;
   }
 }
 

@@ -2,104 +2,158 @@
 
 /* Table Styles */
 .contest-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 16px;
-    text-align: left;
-  }
-  
-  .contest-table-header {
-    background-color: #f4f4f4;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  .contest-table th, 
-  .contest-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-  
-  .contest-row:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .contest-row-selected {
-    background-color: #e6f7ff;
-  }
-  
-  /* Link Styles */
-  .contest-name-link {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .contest-name-link:hover {
-    text-decoration: underline;
-    font-weight: bold;
-  }
-  
-  /* Contest Type Styles */
-  .contest-type.cf {
-    background-color: #f8d7da;
-    color: #721c24;
-  }
-  
-  .contest-type.icpc {
-    background-color: #fff3cd;
-    color: #856404;
-  }
-  
-  .contest-type.regular {
-    background-color: #d1ecf1;
-    color: #0c5460;
-  }
-  
-  .contest-type.contest {
-    background-color: #ffeeba;
-    color: #856404;
-  }
-  
-  .contest-type.virtual {
-    background-color: #c3e6cb;
-    color: #155724;
-  }
-  
-  /* Contest Phase Styles */
-  .contest-phase.finished {
-    background-color: #c3e6cb;
-    color: #155724;
-  }
-  
-  .contest-phase.before {
-    background-color: #fff3cd;
-    color: #856404;
-  }
-  
-  .contest-phase.coding {
-    background-color: #bee5eb;
-    color: #0c5460;
-  }
-  
-  /* Button Styles */
-  .favorite-button {
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .favorite-button.favorited {
-    background-color: #dc3545;
-    color: white;
-  }
-  
-  .favorite-button.not-favorited {
-    background-color: #f8f9fa;
-    color: #333;
-  }
-  
-  .favorite-button:hover {
-    opacity: 0.9;
-  }
-  
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.contest-table-header {
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+}
+
+.contest-table th, 
+.contest-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.contest-row:hover {
+  background-color: #f9f9f9;
+}
+
+.contest-row-selected {
+  background-color: #e6f7ff;
+}
+
+/* Link Styles */
+.contest-name-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.contest-name-link:hover {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+/* Contest Type Styles */
+.contest-type.cf {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.contest-type.icpc {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.contest-type.regular {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.contest-type.contest {
+  background-color: #ffeeba;
+  color: #856404;
+}
+
+.contest-type.virtual {
+  background-color: #c3e6cb;
+  color: #155724;
+}
+
+/* Contest Phase Styles */
+.contest-phase.finished {
+  background-color: #c3e6cb;
+  color: #155724;
+}
+
+.contest-phase.before {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.contest-phase.coding {
+  background-color: #bee5eb;
+  color: #0c5460;
+}
+
+/* Button Styles */
+.favorite-button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.favorite-button.favorited {
+  background-color: #dc3545;
+  color: white;
+}
+
+.favorite-button.not-favorited {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.favorite-button:hover {
+  opacity: 0.9;
+}
+
+
+/* Responsive Table Styling */
+@media (max-width: 768px) {
+.contest-table {
+  border: 0;
+  width: 100%;
+  font-size: 14px;
+}
+
+.contest-table thead {
+  display: none; /* Hide the table headers */
+}
+
+.contest-table tr {
+  display: block;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.contest-table td {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  padding: 8px 0;
+}
+
+.contest-table td:before {
+  content: attr(data-label); /* Add labels as content */
+  font-weight: bold;
+  flex-basis: 40%;
+  text-transform: capitalize;
+  color: #555;
+}
+
+.contest-name-link {
+  word-wrap: break-word;
+  font-size: 14px;
+}
+
+.pagination-container {
+  flex-direction: column;
+  align-items: center;
+}
+}

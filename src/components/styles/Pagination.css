@@ -2,64 +2,63 @@
 
 /* Container Styling */
 .pagination-container {
-    margin-top: 1.5rem; /* Tailwind's mt-6 */
-    padding: 1rem;
-    border-radius: 8px;
-    background-color: #f9fafb; /* Light gray background */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  }
-  
-  /* Pagination Buttons */
-  .pagination-button {
-    font-size: 1rem;
-    color: #3b82f6; /* Tailwind's blue-500 */
-    border-radius: 6px;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-  
-  .pagination-button:hover:not([disabled]) {
-    background-color: #eff6ff; /* Tailwind's blue-100 */
-    color: #1e3a8a; /* Tailwind's blue-800 */
-  }
-  
-  .pagination-button[disabled] {
-    color: #9ca3af; /* Tailwind's gray-400 */
-    cursor: not-allowed;
-  }
-  
-  /* Pagination Info */
-  .pagination-info {
-    font-size: 1rem;
-    color: #374151; /* Tailwind's gray-700 */
-  }
-  
-  .pagination-info .highlight {
-    font-weight: bold;
-    color: #2563eb; /* Tailwind's blue-600 */
-  }
-  
-  /* Items per Page Dropdown */
-  .items-per-page-dropdown {
-    min-width: 150px;
-  }
-  
-  .items-per-page-dropdown .Polaris-Label__Text {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #374151; /* Tailwind's gray-700 */
-  }
-  
-  .items-per-page-dropdown .Polaris-Select__Content {
-    font-size: 1rem;
-    padding: 0.5rem 0.75rem;
-    background-color: #ffffff; /* White background */
-    border: 1px solid #d1d5db; /* Tailwind's gray-300 */
-    border-radius: 6px;
-    transition: border-color 0.2s ease;
-  }
-  
-  .items-per-page-dropdown .Polaris-Select__Content:hover {
-    border-color: #3b82f6; /* Tailwind's blue-500 */
-  }
-  
+  margin-top: 1.5rem; /* Tailwind's mt-6 */
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f9fafb; /* Light gray background */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Pagination Buttons */
+.pagination-button {
+  font-size: 1rem;
+  color: #3b82f6; /* Tailwind's blue-500 */
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pagination-button:hover:not([disabled]) {
+  background-color: #eff6ff; /* Tailwind's blue-100 */
+  color: #1e3a8a; /* Tailwind's blue-800 */
+}
+
+.pagination-button[disabled] {
+  color: #9ca3af; /* Tailwind's gray-400 */
+  cursor: not-allowed;
+}
+
+/* Pagination Info */
+.pagination-info {
+  font-size: 1rem;
+  color: #374151; /* Tailwind's gray-700 */
+}
+
+.pagination-info .highlight {
+  font-weight: bold;
+  color: #2563eb; /* Tailwind's blue-600 */
+}
+
+/* Items per Page Dropdown */
+.items-per-page-dropdown {
+  min-width: 150px;
+}
+
+.items-per-page-dropdown .Polaris-Label__Text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151; /* Tailwind's gray-700 */
+}
+
+.items-per-page-dropdown .Polaris-Select__Content {
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #ffffff; /* White background */
+  border: 1px solid #d1d5db; /* Tailwind's gray-300 */
+  border-radius: 6px;
+  transition: border-color 0.2s ease;
+}
+
+.items-per-page-dropdown .Polaris-Select__Content:hover {
+  border-color: #3b82f6; /* Tailwind's blue-500 */
+}
